@@ -4,20 +4,28 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [userId, setUserId] = useState(''); // Ajout de l'état pour userId
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       const response = await fetch('http://localhost:3000/users/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password }), // Utilisez directement email et password
       });
 
       const data = await response.json();
-      setMessage(data.message);
+      if (response.ok) {
+        localStorage.setItem('token', data.token); // Stocke le token lors de la connexion
+        setUserId(data.userId); // Enregistre également l'ID utilisateur
+        setMessage(data.message);
+      } else {
+        setMessage(data.message);
+      }
     } catch (error) {
       setMessage('Erreur lors de la connexion');
     }

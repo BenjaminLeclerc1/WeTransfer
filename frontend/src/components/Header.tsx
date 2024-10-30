@@ -31,10 +31,10 @@ export default function Header() {
                             <hr className="divider"/>
                             <ul>
                                 <li>
-                                    <a className="nav-link active" href="#">Connexion</a>
+                                    <a className="nav-link active" href="/login">Connexion</a>
                                 </li>
                                 <li>
-                                    <a className="nav-link" href="#">Inscription</a>
+                                    <a className="nav-link" href="/register">Inscription</a>
                                 </li>
                             </ul>
                         </li>

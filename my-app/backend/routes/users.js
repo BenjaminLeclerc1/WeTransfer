@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('../models/User');
-const bcrypt = require('bcrypt'); // Pour hasher les mots de passe
+const bcrypt = require('bcryptjs'); // Pour hasher les mots de passe
 
 const router = express.Router();
 

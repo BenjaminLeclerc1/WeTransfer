@@ -3,9 +3,15 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/users');
 const fileRoutes = require('./routes/files');
+const cors = require('cors');
 const path = require('path');
 
 const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:8080', // Remplace par l'origine du frontend
+}));
+
 app.use(express.json());
 app.use('/users', userRoutes);
 app.use('/files', fileRoutes);

@@ -1,39 +1,36 @@
+require('dotenv').config(); // Charge les variables d'environnement
 const express = require('express');
 const mongoose = require('mongoose');
-const User = require('./User'); // Import du modèle User
+const userRoutes = require('./routes/users');
+const fileRoutes = require('./routes/files');
 
 const app = express();
+app.use(express.json());
+app.use('/users', userRoutes);
+app.use('/files', fileRoutes);
+
+// Test de connexion (Page d'accueil)
+app.get('/', (req, res) => {
+    res.send('Hello, Dockerized Node.js App with MongoDB!');
+});
+
+// Variables d'environnement
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI || "mongodb://mongodb:27017/mydatabase";
 
-app.use(express.json()); // Middleware pour parser les JSON
-
+// Connexion à MongoDB
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-}).then(() => {
+})
+.then(() => {
   console.log("Connected to MongoDB");
-}).catch((error) => {
+})
+.catch((error) => {
   console.error("MongoDB connection error:", error);
 });
 
-// Route pour créer un nouvel utilisateur
-app.post('/users', async (req, res) => {
-  const { id, email } = req.body;
-
-  try {
-    const user = new User({ id, email });
-    await user.save();
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
-
-app.get('/', (req, res) => {
-  res.send('Hello, Dockerized Node.js App with MongoDB!');
-});
-
+// Démarrage du serveur
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });

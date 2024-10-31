@@ -1,57 +1,43 @@
-import React, { useEffect, useState } from "react";
-import ShareLink from "./ShareLink";
-import { createShareLink, deleteFile, getFiles } from "./Api";
+// frontend/src/components/FileList.js
+
+import React, { useEffect, useState } from 'react';
+import { getFiles, createShareLink } from '../api/files';
 
 function FileList() {
   const [files, setFiles] = useState([]);
-  const [shareLink, setShareLink] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [downloadLinks, setDownloadLinks] = useState({}); // État pour stocker les liens de téléchargement
 
   useEffect(() => {
     const fetchFiles = async () => {
-      setLoading(true); // Indiquer que le chargement commence
+      setLoading(true);
       try {
-        const data = await getFiles(); // Appel à la fonction pour récupérer les fichiers
-        setFiles(data); // Mettre à jour l'état avec les fichiers récupérés
+        const data = await getFiles();
+        setFiles(data);
       } catch (error) {
         setError("Erreur lors de la récupération des fichiers.");
         console.error("Erreur lors de la récupération des fichiers", error);
       } finally {
-        setLoading(false); // Indiquer que le chargement est terminé
+        setLoading(false);
       }
     };
 
     fetchFiles();
   }, []);
 
-  const handleShare = async (fileId) => {
+  const handleDownload = async (fileId) => {
     try {
-      const data = await createShareLink(fileId); // Appel à la fonction pour créer un lien de partage
-      setShareLink(data.shareLink); // Mettre à jour l'état avec le lien de partage
+      const data = await createShareLink(fileId); // Récupère le lien de téléchargement depuis le backend
+      setDownloadLinks((prevLinks) => ({
+        ...prevLinks,
+        [fileId]: data.shareLink, // Stocke le lien sans déclencher le téléchargement
+      }));
     } catch (error) {
-      setError("Erreur lors de la création du lien de partage.");
-      console.error("Erreur lors de la création du lien de partage", error);
+      setError("Erreur lors de la génération du lien de téléchargement.");
+      console.error("Erreur lors de la génération du lien de téléchargement", error);
     }
   };
-
-
-
-// Fonction pour gérer la suppression du fichier
-const handleDelete = async (fileId) => {
-  if (window.confirm("Êtes-vous sûr de vouloir supprimer ce fichier ?")) { // Confirmation de l'utilisateur
-    try {
-      await deleteFile(fileId); // Appel à la fonction pour supprimer le fichier
-      setFiles(files.filter(file => file._id !== fileId)); // Met à jour l'état pour supprimer le fichier de la liste
-    } catch (error) {
-      setError("Erreur lors de la suppression du fichier.");
-      console.error("Erreur lors de la suppression du fichier", error);
-    }
-  }
-};
-
-
-
 
   return (
     <div className="container mt-5">
@@ -61,25 +47,24 @@ const handleDelete = async (fileId) => {
       ) : error ? (
         <div className="alert alert-danger">{error}</div>
       ) : (
-        <>
-          <ul className="list-group">
-            {files.map((file) => (
-              <li key={file._id} className="list-group-item d-flex justify-content-between align-items-center">
-                {file.filename}
-                <div>
-                <button className="btn btn-info btn-sm" onClick={() => handleShare(file._id)}>
-                  Partager
+        <ul className="list-group">
+          {files.map((file) => (
+            <li key={file._id} className="list-group-item d-flex flex-column align-items-start">
+              <div className="d-flex justify-content-between w-100">
+                <span>{file.filename}</span>
+                <button className="btn btn-primary btn-sm" onClick={() => handleDownload(file._id)}>
+                  Obtenir le lien de téléchargement
                 </button>
-                
-                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(file._id)}>
-                    Supprimer
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-          {shareLink && <ShareLink link={shareLink} />}
-        </>
+              </div>
+              {/* Affiche le lien de téléchargement sous le fichier après le clic sur Obtenir le lien */}
+              {downloadLinks[file._id] && (
+                <p className="mt-2">
+                  Lien : <a href={downloadLinks[file._id]} target="_blank" rel="noopener noreferrer">{downloadLinks[file._id]}</a>
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

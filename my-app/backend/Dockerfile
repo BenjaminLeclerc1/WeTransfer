@@ -8,6 +8,8 @@ COPY package.json package-lock.json ./
 # Installe les dépendances dans le conteneur Docker
 RUN npm install
 
+RUN mkdir -p /app/uploads
+
 # Copie le reste du code de l'application
 COPY . .
 

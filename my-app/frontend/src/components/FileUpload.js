@@ -33,8 +33,8 @@ const FileUpload = () => {
         method: 'POST',
         body: formData,
         headers: {
-          'Authorization': token // Ajoutez le token dans l'en-tête
-        }
+          Authorization: `Bearer ${token}`, // Ajouter le token aux en-têtes
+        },
       });
   
       const data = await response.json();

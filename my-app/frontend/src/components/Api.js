@@ -7,7 +7,7 @@ const API_URL = 'http://localhost:3000'; // Remplacez cela par votre URL d'API
 export const getFiles = async () => {
   try {
     const response = await axios.get(`${API_URL}/myfiles`); // Utilisation de la route /myfiles
-    console.log(response.data);
+    console.log("-------------------------------------------------",response.data);
     return response.data; // Retourner les données de la réponse
     
     

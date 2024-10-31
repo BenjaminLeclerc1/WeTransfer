@@ -106,6 +106,8 @@ router.get('/:fileId/download', authenticate, async (req, res) => {
 router.get('/myfiles', authenticate, async (req, res) => {
   try {
     const files = await File.find({ userId: req.userId }); // Récupère les fichiers de l'utilisateur connecté
+   console.log(files);
+   
     res.json(files);
   } catch (error) {
     res.status(500).json({ message: error.message });

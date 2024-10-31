@@ -5,6 +5,9 @@ const User = require('../models/User');
 const path = require('path');
 const authenticate = require('./auth');
 const router = express.Router();
+const fs = require('fs');
+
+
 
 const upload = multer({ dest: 'uploads/' }); // Dossier temporaire pour les fichiers
 
@@ -115,23 +118,24 @@ router.get('/myfiles', authenticate, async (req, res) => {
 
 //supprimer un fichier
 
-router.delete('/files/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   try {
+      console.log("ID reçu :", req.params.id); // Vérifie l'ID reçu
       const file = await File.findById(req.params.id);
+
       if (!file) {
+          console.log("Fichier introuvable dans la base de données.");
           return res.status(404).json({ message: 'Fichier introuvable.' });
       }
 
-      // Supprimer le fichier du système de fichiers
-      fs.unlinkSync(path.join(__dirname, '../uploads', file.filename));
-
-      // Supprimer le fichier de la base de données
+      // Supprimer uniquement le fichier de la base de données
       await File.findByIdAndDelete(req.params.id);
+      console.log("Fichier supprimé de la base de données.");
 
-      res.json({ message: 'Fichier supprimé avec succès.' });
+      res.json({ message: 'Fichier supprimé avec succès de la base de données.' });
   } catch (error) {
-      console.error('Erreur lors de la suppression du fichier', error);
-      res.status(500).json({ message: 'Erreur lors de la suppression du fichier.' });
+      console.error('Erreur lors de la suppression du fichier de la base de données', error);
+      res.status(500).json({ message: 'Erreur lors de la suppression du fichier de la base de données.' });
   }
 });
 

@@ -1,7 +1,5 @@
-// frontend/src/components/FileList.js
-
 import React, { useEffect, useState } from 'react';
-import { getFiles, createShareLink } from '../api/files';
+import { getFiles, createShareLink, deleteFile } from '../api/files'; // Ajout de deleteFile
 
 function FileList() {
   const [files, setFiles] = useState([]);
@@ -39,6 +37,17 @@ function FileList() {
     }
   };
 
+  const handleDelete = async (fileId) => {
+    try {
+      await deleteFile(fileId); // Appelle la fonction de suppression
+      setFiles((prevFiles) => prevFiles.filter((file) => file._id !== fileId)); // Met à jour la liste des fichiers
+      alert("Fichier supprimé avec succès !");
+    } catch (error) {
+      setError("Erreur lors de la suppression du fichier.");
+      console.error("Erreur lors de la suppression du fichier", error);
+    }
+  };
+
   return (
     <div className="container mt-5">
       <h2>Mes Fichiers</h2>
@@ -52,9 +61,14 @@ function FileList() {
             <li key={file._id} className="list-group-item d-flex flex-column align-items-start">
               <div className="d-flex justify-content-between w-100">
                 <span>{file.filename}</span>
-                <button className="btn btn-primary btn-sm" onClick={() => handleDownload(file._id)}>
-                  Obtenir le lien de téléchargement
-                </button>
+                <div>
+                  <button className="btn btn-primary btn-sm me-2" onClick={() => handleDownload(file._id)}>
+                    Obtenir le lien de téléchargement
+                  </button>
+                  <button className="btn btn-danger btn-sm" onClick={() => handleDelete(file._id)}>
+                    Supprimer
+                  </button>
+                </div>
               </div>
               {/* Affiche le lien de téléchargement sous le fichier après le clic sur Obtenir le lien */}
               {downloadLinks[file._id] && (

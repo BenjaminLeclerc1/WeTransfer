@@ -42,10 +42,25 @@ export const downloadFile = async (fileId) => {
 export const createShareLink = async (fileId) => {
     const token = localStorage.getItem('token');
     const response = await axios.get(`${API_URL}/files/${fileId}/share`, {
-      headers: {
+    headers: {
         Authorization: `Bearer ${token}`,
-      },
+    },
     });
     return { ...response.data, shareLink: `${response.data.shareLink}?token=${token}` };
-  };
-  
+};
+
+export const deleteFile = async (fileId) => {
+    console.log("je passe par LAAAAAAAAAAAAAAAAAAAAAA")
+const token = localStorage.getItem('token');
+const response = await axios.delete(`${API_URL}/files/${fileId}`, {
+    headers: {
+    Authorization: `Bearer ${token}`,
+    },
+});
+
+if (!response.status === 200) {
+    throw new Error('Erreur lors de la suppression du fichier');
+}
+
+return response.data; // Retourne la réponse JSON en cas de succès
+};

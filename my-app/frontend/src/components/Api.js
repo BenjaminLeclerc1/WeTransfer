@@ -35,19 +35,3 @@ export const createShareLink = async (fileId) => {
     throw error; // Relancer l'erreur pour permettre le traitement ultérieur
   }
 };
-
-
-// Api.js
-
-// Fonction pour supprimer un fichier
-export const deleteFile = async (fileId) => {
-  const response = await fetch(`${API_URL}/files/${fileId}`, {
-      method: 'DELETE', // Méthode HTTP pour supprimer
-  });
-
-  if (!response.ok) {
-      throw new Error('Erreur lors de la suppression du fichier');
-  }
-
-  return await response.json(); // Retourne la réponse JSON
-};

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Home from './Home';
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
@@ -46,6 +47,7 @@ const FileUpload = () => {
 
   return (
     <div>
+           <Home/>
       <h2>Upload de fichier</h2>
       <form onSubmit={handleSubmit}>
         <input type="file" onChange={handleFileChange} required />

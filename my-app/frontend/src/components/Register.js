@@ -1,31 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import Home from "./Home";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await fetch('http://localhost:3000/users/register', {
-        method: 'POST',
+      const response = await fetch("http://localhost:3000/users/register", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, email, password }),
       });
 
       const data = await response.json();
-      setMessage(data.message);
+      if (response.ok) {
+        setMessage(data.message);
+        // Rediriger vers la page de connexion
+        navigate("/login");
+      } else {
+        setMessage(data.message || "Erreur lors de l'inscription");
+      }
     } catch (error) {
-      setMessage('Erreur lors de l\'inscription');
+      setMessage("Erreur lors de l'inscription");
     }
   };
 
   return (
     <div>
+      <Home />
       <h2>Inscription</h2>
       <form onSubmit={handleSubmit}>
         <input

@@ -1,16 +1,26 @@
-import React from 'react';
-import Register from './components/Register';
-import Login from './components/Login';
-import FileUpload from './components/FileUpload';
-import './App.css';
+import React from "react";
+import Register from "./components/Register";
+import Login from "./components/Login";
+import FileUpload from "./components/FileUpload";
+import "./App.css";
+import Home from "./components/Home";
+import { Route, Routes } from "react-router-dom";
+import Logout from './components/Logout';
+import FileList from "./components/FileList";
 
 function App() {
   return (
     <div className="App">
-      <h1>Bienvenue sur le Serveur de Fichiers</h1>
-      <Register />
-      <Login />
-      <FileUpload />
+      <Routes>
+       <Route exact path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/logout" element={<Logout />} />
+        <Route path="/fileupload" element={<FileUpload />} />
+        <Route path="/filelist" element={<FileList />} />
+      </Routes>
+     
     </div>
   );
 }

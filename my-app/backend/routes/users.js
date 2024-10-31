@@ -38,4 +38,14 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// deconnexion 
+
+router.post('/logout', (req, res) => {
+  // logique de déconnexion
+  res.json({ message: "deconnected" });
+  console.log('personne deconnecté');
+  
+});
+
+
 module.exports = router;

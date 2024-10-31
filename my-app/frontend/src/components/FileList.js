@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ShareLink from "./ShareLink";
-import { createShareLink, getFiles } from "./Api";
+import { createShareLink, deleteFile, getFiles } from "./Api";
 
 function FileList() {
   const [files, setFiles] = useState([]);
@@ -35,6 +35,24 @@ function FileList() {
     }
   };
 
+
+
+// Fonction pour gérer la suppression du fichier
+const handleDelete = async (fileId) => {
+  if (window.confirm("Êtes-vous sûr de vouloir supprimer ce fichier ?")) { // Confirmation de l'utilisateur
+    try {
+      await deleteFile(fileId); // Appel à la fonction pour supprimer le fichier
+      setFiles(files.filter(file => file._id !== fileId)); // Met à jour l'état pour supprimer le fichier de la liste
+    } catch (error) {
+      setError("Erreur lors de la suppression du fichier.");
+      console.error("Erreur lors de la suppression du fichier", error);
+    }
+  }
+};
+
+
+
+
   return (
     <div className="container mt-5">
       <h2>Mes Fichiers</h2>
@@ -48,9 +66,15 @@ function FileList() {
             {files.map((file) => (
               <li key={file._id} className="list-group-item d-flex justify-content-between align-items-center">
                 {file.filename}
+                <div>
                 <button className="btn btn-info btn-sm" onClick={() => handleShare(file._id)}>
                   Partager
                 </button>
+                
+                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(file._id)}>
+                    Supprimer
+                  </button>
+                </div>
               </li>
             ))}
           </ul>

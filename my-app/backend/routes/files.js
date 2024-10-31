@@ -114,4 +114,29 @@ router.get('/myfiles', authenticate, async (req, res) => {
 
 
 
+
+//supprimer un fichier
+
+router.delete('/files/:id', async (req, res) => {
+  try {
+      const file = await File.findById(req.params.id);
+      if (!file) {
+          return res.status(404).json({ message: 'Fichier introuvable.' });
+      }
+
+      // Supprimer le fichier du système de fichiers
+      fs.unlinkSync(path.join(__dirname, '../uploads', file.filename));
+
+      // Supprimer le fichier de la base de données
+      await File.findByIdAndDelete(req.params.id);
+
+      res.json({ message: 'Fichier supprimé avec succès.' });
+  } catch (error) {
+      console.error('Erreur lors de la suppression du fichier', error);
+      res.status(500).json({ message: 'Erreur lors de la suppression du fichier.' });
+  }
+});
+
+
+
 module.exports = router;

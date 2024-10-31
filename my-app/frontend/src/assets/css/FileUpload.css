@@ -1,0 +1,42 @@
+.containerFile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    margin: 0 auto;
+    width: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    margin-top: 1em;
+}
+
+.sendContainer {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+}
+
+.inputContainer label {
+    margin-bottom: 0.5em;
+}
+
+.inputContainer input {
+    width: 100%;
+    padding: 1em;
+    margin-top: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 0.5em;
+    box-sizing: border-box;
+}

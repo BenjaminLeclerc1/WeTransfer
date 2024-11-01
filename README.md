@@ -15,6 +15,7 @@ Pages utilisables
 Lien pour l'interface BDD : http://localhost:8081/db/mydatabase/
 
 username : root
+
 password : root
 
 Page d'accueil : http://localhost:8080/

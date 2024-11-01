@@ -9,3 +9,27 @@
     margin: 0 auto;
     /* background: red; */
 }
+
+
+.copy-alert {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 500px;
+    padding: 15px;
+    z-index: 1050; /* Pour s'assurer que le message est bien visible */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    animation: slideDown 0.5s ease-in-out;
+  }
+  
+  @keyframes slideDown {
+    from {
+      transform: translate(-50%, -100%);
+    }
+    to {
+      transform: translate(-50%, 0);
+    }
+  }
+  

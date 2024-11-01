@@ -1,5 +1,5 @@
 const express = require('express');
-const multer = require('multer'); // Pour gérer l'upload des fichiers
+const multer = require('multer'); 
 const File = require('../models/File');
 const User = require('../models/User');
 const path = require('path');
@@ -9,13 +9,12 @@ const fs = require('fs');
 
 
 
-const upload = multer({ dest: 'uploads/' }); // Dossier temporaire pour les fichiers
+const upload = multer({ dest: 'uploads/' }); 
 
-
-// Upload d'un fichier sécurisé
+// Upload d'un fichier 
 router.post('/upload', authenticate, upload.single('file'), async (req, res) => {
   const file = req.file;
-  console.log(`Uploading file for user ID: ${req.userId}`); // Affiche l'ID utilisateur
+  console.log(`Uploading file for user ID: ${req.userId}`); 
 
   try {
     const user = await User.findById(req.userId);
@@ -24,11 +23,6 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res) => 
     if (user.usedSpace + file.size > user.quota) {
       return res.status(400).json({ message: "Quota exceeded" });
     }
-
-  //   const expiresAt = req.body.expiresAt 
-  //   ? new Date(req.body.expiresAt) 
-  //   : new Date(Date.now() + 10000);
-  //  // : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 jours par défaut
 
 
     const newFile = new File({
@@ -42,7 +36,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res) => 
     await user.save();
     await newFile.save();
 
-    console.log(`File uploaded successfully for user ID: ${req.userId}`); // Affiche confirmation de l'upload
+    console.log(`File uploaded successfully for user ID: ${req.userId}`); 
     res.status(201).json({ message: "File uploaded successfully", file: newFile });
   } catch (error) {
     console.error(`Error during upload for user ID ${req.userId}: ${error.message}`);
@@ -53,10 +47,12 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res) => 
 
 
 
-// Générer un lien de partage temporaire sécurisé
+// Générer un lien de partage temporaire 
 router.get('/:fileId/share', authenticate, async (req, res) => {
   const { fileId } = req.params;
-  const expirationTime =  60000; 
+  
+   // expiration après 24h
+  const expirationTime =  24 * 60 * 60 * 1000; 
 
   try {
     const file = await File.findById(fileId);
@@ -84,6 +80,7 @@ router.get('/:fileId/share', authenticate, async (req, res) => {
 
 // Télécharger un fichier sécurisé
 router.get('/:fileId/download', async (req, res) => {
+
   const { fileId } = req.params;
   console.log(`Attempt to access download for file ID: ${fileId}`);
 

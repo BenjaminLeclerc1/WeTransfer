@@ -1,18 +1,13 @@
-import FileUpload from "./FileUpload"
-import Header from "./Header"
-
-
-
+import FileUpload from "./FileUpload";
+import Header from "./Header";
 
 function Home() {
-
-
   return (
     <div>
-      <Header/>
+      <Header />
       <FileUpload />
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

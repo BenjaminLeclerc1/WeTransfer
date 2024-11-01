@@ -1,21 +1,23 @@
-import axios from 'axios';
+import axios from "axios";
 
-// Définir l'URL de base de votre API
-const API_URL = 'http://localhost:3000'; // Remplacez cela par votre URL d'API
+const API_URL = "http://localhost:3000";
 
 // Fonction pour récupérer la liste des fichiers
 export const getFiles = async () => {
   try {
-    console.log("-sqjbdhdbqshdqbshsqbhsbdshqsbdhsbdhsbshsdbhsdbdsq",localStorage.getItem('token'))
-    const token = localStorage.getItem('token'); // Récupère le token stocké après connexion
+    console.log(localStorage.getItem("token"));
+    const token = localStorage.getItem("token"); // Récupère le token stocké après connexion
     const response = await axios.get(`${API_URL}/files/myfiles`, {
       headers: {
-        Authorization: `Bearer ${token}`, // Ajouter le token aux en-têtes
+        Authorization: `Bearer ${token}`,
       },
     });
     return response.data;
   } catch (error) {
-    console.error("Erreur lors de la récupération des fichiers:", error.response ? error.response.data : error.message);
+    console.error(
+      "Erreur lors de la récupération des fichiers:",
+      error.response ? error.response.data : error.message
+    );
     throw error;
   }
 };
@@ -23,15 +25,18 @@ export const getFiles = async () => {
 // Fonction pour créer un lien de partage pour un fichier
 export const createShareLink = async (fileId) => {
   try {
-    const token = localStorage.getItem('token'); // Récupère le token stocké après connexion
+    const token = localStorage.getItem("token"); // Récupère le token stocké après connexion
     const response = await axios.get(`${API_URL}/files/${fileId}/share`, {
       headers: {
-        Authorization: `Bearer ${token}`, // Ajouter le token aux en-têtes
+        Authorization: `Bearer ${token}`,
       },
-    }); // Utilisation de la route /:fileId/share
-    return response.data; // Retourner les données de la réponse
+    });
+    return response.data;
   } catch (error) {
-    console.error("Erreur lors de la création du lien de partage:", error.response ? error.response.data : error.message);
-    throw error; // Relancer l'erreur pour permettre le traitement ultérieur
+    console.error(
+      "Erreur lors de la création du lien de partage:",
+      error.response ? error.response.data : error.message
+    );
+    throw error;
   }
 };

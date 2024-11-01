@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Home from "./Home";
-import { useNavigate } from "react-router-dom";
+
+import { Link, useNavigate } from "react-router-dom";
 
 import "../assets/css/LoRe.css";
 import Header from "./Header";
@@ -9,7 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const [userId, setUserId] = useState(""); // Ajout de l'état pour userId
+  const [userId, setUserId] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -21,13 +21,13 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }), // Utilisez directement email et password
+        body: JSON.stringify({ email, password }),
       });
 
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem("token", data.token); // Stocke le token lors de la connexion
-        setUserId(data.userId); // Enregistre également l'ID utilisateur
+        localStorage.setItem("token", data.token);
+        setUserId(data.userId);
         setMessage(data.message);
         // Rediriger vers la page d'accueil
         navigate("/");
@@ -75,8 +75,11 @@ const Login = () => {
             />
             <button type="submit">Se connecter</button>
           </div>
+          <p class="text-center mt-3">
+                Vous n'avez pas encore de compte ? <Link to="/register">Créer un compte</Link>
+            </p>
         </form>
-        {message && <p className='text-danger'>{message}</p>}
+        {message && <p className="text-danger">{message}</p>}
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ const fileSchema = new mongoose.Schema({
   path: { type: String, required: true },
   size: { type: Number, required: true },
   uploadedAt: { type: Date, default: Date.now },
-  expiresAt: { type: Date }, // Date d'expiration pour les liens temporaires
+  expiresAt: { type: Date }, 
 });
 
 const File = mongoose.model('File', fileSchema);

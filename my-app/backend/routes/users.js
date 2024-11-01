@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('../models/User');
-const bcrypt = require('bcryptjs'); // Pour hasher les mots de passe
+const bcrypt = require('bcryptjs'); 
 const jwt = require('jsonwebtoken'); 
 const router = express.Router();
 const secretKey = 'wetransfer';
@@ -41,7 +41,7 @@ router.post('/login', async (req, res) => {
 // deconnexion 
 
 router.post('/logout', (req, res) => {
-  // logique de déconnexion
+
   res.json({ message: "deconnected" });
   console.log('personne deconnecté');
   

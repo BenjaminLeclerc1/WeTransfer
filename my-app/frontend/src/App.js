@@ -5,7 +5,6 @@ import FileUpload from "./components/FileUpload";
 import "./App.css";
 import Home from "./components/Home";
 import { Route, Routes } from "react-router-dom";
-import Logout from './components/Logout';
 import FileList from "./components/FileList";
 
 function App() {
@@ -14,9 +13,7 @@ function App() {
       <Routes>
        <Route exact path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/logout" element={<Logout />} />
         <Route path="/fileupload" element={<FileUpload />} />
         <Route path="/filelist" element={<FileList />} />
       </Routes>

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import { useNavigate } from "react-router-dom";
-import "../assets/css/LoRe.css"
+import { Link, useNavigate } from "react-router-dom";
+import "../assets/css/LoRe.css";
 import Header from "./Header";
 
 const Register = () => {
@@ -39,43 +39,53 @@ const Register = () => {
   return (
     <div>
       <Header />
-      <div className='containerRe'>
-      
-      <form onSubmit={handleSubmit} className='formElement'>
-      <h2>Inscription</h2>
-      <div className="d-flex flex-column mb-3 w-100">
-      <label htmlFor="username" className='mb-2'>Nom d'Utilisateur</label>
-        <input
-          type="text"
-          placeholder="Nom d'utilisateur"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-         </div>
+      <div className="containerRe">
+        <form onSubmit={handleSubmit} className="formElement">
+          <h2>Inscription</h2>
+          <div className="d-flex flex-column mb-3 w-100">
+            <label htmlFor="username" className="mb-2">
+              Nom d'Utilisateur
+            </label>
+            <input
+              type="text"
+              placeholder="Nom d'utilisateur"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
           <div className="d-flex flex-column mb-2 w-100">
-            <label htmlFor="email" className='mb-3'>Email</label>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        </div>
+            <label htmlFor="email" className="mb-3">
+              Email
+            </label>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
           <div className="d-flex flex-column mb-2 w-100">
-            <label htmlFor="password" className='mb-3'>Mot de passe</label>
-        <input
-          type="password"
-          placeholder="Mot de passe"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        /> </div>
-        <button type="submit">S'inscrire</button>
-      </form>
-      {message && <p className='text-danger'>{message}</p>}
-    </div></div>
+            <label htmlFor="password" className="mb-3">
+              Mot de passe
+            </label>
+            <input
+              type="password"
+              placeholder="Mot de passe"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />{" "}
+          </div>
+          <button type="submit">S'inscrire</button>
+          <p class="text-center mt-3">
+                Vous avez déjà un compte ? <Link to="/login">Connectez-vous</Link>
+            </p>
+        </form>
+        {message && <p className="text-danger">{message}</p>}
+      </div>
+    </div>
   );
 };
 

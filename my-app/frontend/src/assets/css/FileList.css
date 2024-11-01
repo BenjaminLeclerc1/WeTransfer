@@ -1,0 +1,11 @@
+.containerTransfer{
+    height: 100vh;
+}
+
+.containerTable{
+    border: 1px solid black;
+    width: 95%;
+    justify-content: space-around;
+    margin: 0 auto;
+    /* background: red; */
+}

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import Home from './Home';
+import Home from './Header';
+import Header from './Header';
+
 
 const FileUpload = () => {
   const [file, setFile] = useState(null);
@@ -46,15 +48,29 @@ const FileUpload = () => {
   
 
   return (
-    <div>
-           <Home/>
-      <h2>Upload de fichier</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="file" onChange={handleFileChange} required />
-        <button type="submit">Uploader</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
+    // <div>
+    //        <Home/>
+    //   <h2>Upload de fichier</h2>
+    //   <form onSubmit={handleSubmit}>
+    //     <input type="file" onChange={handleFileChange} required />
+    //     <button type="submit">Uploader</button>
+    //   </form>
+    //   {message && <p>{message}</p>}
+    // </div>
+    <>
+ 
+    <div className='containerFile'>
+      <div className='container'>
+        <form onSubmit={handleSubmit} className='sendContainer'>
+          <h1 className='text-center m-5'>Ajouter des fichiers</h1>
+          <div className="inputContainer mb-3">
+            <input type="file" id='file' onChange={handleFileChange} required />
+          </div>
+          <button type="submit">Uploader</button>
+        </form>
+        {message && <p className='text-danger'>{message}</p>}
+      </div>
+    </div></>
   );
 };
 

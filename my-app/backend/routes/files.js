@@ -25,11 +25,17 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res) => 
       return res.status(400).json({ message: "Quota exceeded" });
     }
 
+  //   const expiresAt = req.body.expiresAt 
+  //   ? new Date(req.body.expiresAt) 
+  //   : new Date(Date.now() + 10000);
+  //  // : new Date(Date.now() + 30 * 24 * 60 * 60 * 1000); // 30 jours par défaut
+
+
     const newFile = new File({
       userId: user._id,
       filename: file.originalname,
       path: file.path,
-      size: file.size
+      size: file.size,
     });
 
     user.usedSpace += file.size;
@@ -50,7 +56,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res) => 
 // Générer un lien de partage temporaire sécurisé
 router.get('/:fileId/share', authenticate, async (req, res) => {
   const { fileId } = req.params;
-  const expirationTime = 24 * 60 * 60 * 1000; // 24 heures
+  const expirationTime =  10; 
 
   try {
     const file = await File.findById(fileId);

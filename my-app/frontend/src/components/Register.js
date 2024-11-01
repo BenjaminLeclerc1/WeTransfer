@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import Home from "./Home";
+
 import { useNavigate } from "react-router-dom";
+import "../assets/css/LoRe.css"
+import Header from "./Header";
 
 const Register = () => {
   const [username, setUsername] = useState("");
@@ -36,9 +38,13 @@ const Register = () => {
 
   return (
     <div>
-      <Home />
+      <Header />
+      <div className='containerRe'>
+      
+      <form onSubmit={handleSubmit} className='formElement'>
       <h2>Inscription</h2>
-      <form onSubmit={handleSubmit}>
+      <div className="d-flex flex-column mb-3 w-100">
+      <label htmlFor="username" className='mb-2'>Nom d'Utilisateur</label>
         <input
           type="text"
           placeholder="Nom d'utilisateur"
@@ -46,6 +52,9 @@ const Register = () => {
           onChange={(e) => setUsername(e.target.value)}
           required
         />
+         </div>
+          <div className="d-flex flex-column mb-2 w-100">
+            <label htmlFor="email" className='mb-3'>Email</label>
         <input
           type="email"
           placeholder="Email"
@@ -53,17 +62,20 @@ const Register = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
+        </div>
+          <div className="d-flex flex-column mb-2 w-100">
+            <label htmlFor="password" className='mb-3'>Mot de passe</label>
         <input
           type="password"
           placeholder="Mot de passe"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-        />
+        /> </div>
         <button type="submit">S'inscrire</button>
       </form>
-      {message && <p>{message}</p>}
-    </div>
+      {message && <p className='text-danger'>{message}</p>}
+    </div></div>
   );
 };
 

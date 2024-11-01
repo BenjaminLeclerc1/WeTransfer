@@ -1,0 +1,21 @@
+
+
+.containerHeader{
+    width: 100%; 
+   margin: 0 auto; 
+   display: flex;
+    justify-content: space-around;
+    gap: 60em;
+    align-items: center;
+}
+
+@media screen and (max-width:800px) {
+    .containerHeader{
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-around;
+        gap: 1em;
+        align-items: center;
+    }
+}

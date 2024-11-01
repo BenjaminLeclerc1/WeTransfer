@@ -56,7 +56,7 @@ router.post('/upload', authenticate, upload.single('file'), async (req, res) => 
 // Générer un lien de partage temporaire sécurisé
 router.get('/:fileId/share', authenticate, async (req, res) => {
   const { fileId } = req.params;
-  const expirationTime =  10; 
+  const expirationTime =  60000; 
 
   try {
     const file = await File.findById(fileId);
@@ -83,10 +83,9 @@ router.get('/:fileId/share', authenticate, async (req, res) => {
 
 
 // Télécharger un fichier sécurisé
-router.get('/:fileId/download', authenticate, async (req, res) => {
+router.get('/:fileId/download', async (req, res) => {
   const { fileId } = req.params;
   console.log(`Attempt to access download for file ID: ${fileId}`);
-  console.log(`User ID ${req.userId} attempting to download file ID: ${fileId}`); // Affiche l'ID utilisateur et du fichier
 
   try {
     const file = await File.findById(fileId);
@@ -95,16 +94,18 @@ router.get('/:fileId/download', authenticate, async (req, res) => {
       return res.status(404).json({ message: "File not found" });
     }
 
-    // Vérifie si l'utilisateur est bien le propriétaire du fichier
-    if (file.userId.toString() !== req.userId) {
-      return res.status(403).json({ message: "You do not have access to this file" });
+    // Vérifie si le lien de téléchargement a expiré
+    if (file.expiresAt && new Date() > file.expiresAt) {
+      return res.status(403).json({ message: "This download link has expired" });
     }
 
     res.download(file.path, file.filename);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("Error during file download:", error);
+    res.status(500).json({ message: "An error occurred while processing the download request" });
   }
 });
+
 
 
 // Exemple d'une route Express pour récupérer des fichiers

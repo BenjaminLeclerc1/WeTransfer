@@ -2,7 +2,7 @@
 
 git clone https://github.com/BenjaminLeclerc1/WeTransfer.git
 
-cd my-app
+cd \WeTransfer\my-app
 
 docker-compose up --build
 
